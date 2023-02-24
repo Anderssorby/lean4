@@ -35,6 +35,7 @@ Authors: Leonardo de Moura, Sebastian Ullrich
 #include <string>
 #include <cstdlib>
 #include <cctype>
+#include <time.h>
 #include <sys/stat.h>
 #include "util/io.h"
 #include "runtime/alloc.h"
@@ -882,6 +883,12 @@ extern "C" LEAN_EXPORT obj_res lean_io_wait_any(b_obj_arg task_list, obj_arg) {
 
 extern "C" LEAN_EXPORT obj_res lean_io_exit(uint8_t code, obj_arg /* w */) {
     exit(code);
+}
+
+extern "C" LEAN_EXPORT obj_res lean_current_time_millis() {
+    time_t t;
+    t = time(NULL);
+    return io_result_mk_ok(lean_box((uint64_t) t));
 }
 
 void initialize_io() {
